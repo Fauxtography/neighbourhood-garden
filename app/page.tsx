@@ -20,7 +20,7 @@ export default function Home() {
         </h1>
       </header>
       <div className="bg-white-700 mx-auto my-5 w-[98%] h-[480px]">
-        <Map posix={[4.79029, -75.69003]}/>
+        <Map posix={[-37.80781, 144.89520]}/>
       </div>
     </main>
   );
