@@ -6,6 +6,9 @@ import { LatLngExpression, LatLngTuple, icon } from 'leaflet';
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+import { useState } from "react";
+import { AddMarkerButton } from "./add-marker.component";
+import { LatLngLiteral } from "leaflet";
 
 interface MapProps {
     posix: LatLngExpression | LatLngTuple,
@@ -24,7 +27,15 @@ var appleIcon = icon({
 const Map = (Map: MapProps) => {
     const { zoom = defaults.zoom, posix } = Map
 
+    const [ markers, setMarkers ] = useState<LatLngLiteral[]>([])
+
+    const addMarker = (latitude:number, longitude:number) => {
+        const newMarker:LatLngLiteral = { lat:latitude, lng:longitude };
+        setMarkers([...markers, newMarker]);
+    };
+
     return (
+        <>
         <MapContainer
             center={posix}
             zoom={zoom}
@@ -38,7 +49,12 @@ const Map = (Map: MapProps) => {
             <Marker icon={appleIcon} position={posix} draggable={false}>
                 <Popup>Hey ! I study here</Popup>
             </Marker>
+            {markers?.map((marker) => (
+                <Marker position={marker} draggable={false} />
+            ))}
         </MapContainer>
+        <AddMarkerButton onClick={addMarker}/>
+        </>
     )
 }
 
